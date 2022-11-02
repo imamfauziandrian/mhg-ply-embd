@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   video. onseeking = function(event) {
-console.log("seeking", event.target.currentTime);
-}
+    console.log("seeking", event.target.currentTime);
+  }
   console.log(video);
   
   const queryString = window.location.search;
