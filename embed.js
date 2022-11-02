@@ -19,14 +19,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   video.addEventListener('progress', (event) => {
-    console.log(event);
-    
+    const playedSeconds = Math.floor(event.target.currentTime);
+console.log(playedSeconds);
+    if(playedSeconds%5 === 0 || playedSeconds === 0){
+      console.log(playedSeconds);
+    }
   });
 
   video. onseeking = function(event) {
     console.log("seeking", event.target.currentTime);
   }
-  console.log(video);
   
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
