@@ -1,7 +1,11 @@
-console.log("Embeded script loaded.");
 
 let initialized = false;
 document.addEventListener('DOMContentLoaded', function () {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  let data = urlParams.get('traffic_data');
+  data = JSON.parse(atob(data));
+
   const video = document.querySelector("video");
   window.video = video;
   video.oncanplay = function() {
@@ -18,20 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  video.addEventListener('progress', (event) => {
+  let lastSync = 0;
+  video.addEventListener('timeupdate', (event) => {
     const playedSeconds = Math.floor(event.target.currentTime);
-console.log(playedSeconds);
-    if(playedSeconds%5 === 0 || playedSeconds === 0){
-      console.log(playedSeconds);
+    if(playedSeconds%5 === 0){
+      if(playedSeconds !== lastSync){
+        lastSync = playedSeconds;
+        fetch(data.url, { method: "PUT", headers: { authorization: data.token, 'content-type': 'application/json' }, body: JSON.stringify({ duration: playedSeconds }) });
+      }
     }
   });
 
+  let seekingData = [];
   video. onseeking = function(event) {
-    console.log("seeking", event.target.currentTime);
+    seekingData = [ ...seekingData, Math.floor(event.target.currentTime) ]
+    fetch(data.url, { method: "PUT", headers: { authorization: data.token, 'content-type': 'application/json' }, body: JSON.stringify({ seekEvent: seekingData, duration: Math.floor(event.target.currentTime) }) });
   }
-  
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const data = urlParams.get('traffic_data');
-  console.log(JSON.parse(atob(data)));
 }, false);
