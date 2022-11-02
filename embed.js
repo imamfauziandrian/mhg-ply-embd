@@ -1,6 +1,5 @@
 console.log("Embeded script loaded.");
 
-(function() {
 let initialized = false;
 document.addEventListener('DOMContentLoaded', function () {
   const video = document.querySelector("video");
@@ -34,4 +33,3 @@ document.addEventListener('DOMContentLoaded', function () {
   const data = urlParams.get('traffic_data');
   console.log(JSON.parse(atob(data)));
 }, false);
-})();
