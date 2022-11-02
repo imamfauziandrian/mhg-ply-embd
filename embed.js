@@ -1,3 +1,5 @@
+console.log("Embeded script loaded.");
+
 (function() {
 let initialized = false;
 document.addEventListener('DOMContentLoaded', function () {
