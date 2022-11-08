@@ -1,8 +1,8 @@
-
 let initialized = false;
 document.addEventListener('DOMContentLoaded', function () {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
+  const start = urlParams.get('start');
   let data = urlParams.get('traffic_data');
   data = JSON.parse(atob(data));
 
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     newNode.classList.add('plyr__controls__item');
     newNode.textContent = '© Mahaguru';
     newNode.style.whiteSpace = "nowrap";
+    newNode.style.marginLeft = "6px";
     newNode.style.fontSize = "small";
 
     if(!initialized){
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
       playctl.parentNode.insertBefore(newNode, playctl.nextSibling);
     }
   }
+ video.currentTime = start || 0;
 
   let lastSync = 0;
   video.addEventListener('timeupdate', (event) => {
